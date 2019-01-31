@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>Pokedex</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel='stylesheet' href="{% static 'dex_app/css/master-styling.css' %}">
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script></script>
+    <script>
+    </script>
+</head>
+<body>
+    <div id='navbar'>
+            <a href='/pokedex/{{gen}}'>
+                <img src="{% static 'dex_app/imgs/pokeball.png' %}" alt='View Pokedex'>
+            </a><a href='/pokedex/moves/{{gen}}'>
+                <img src="{% static 'dex_app/imgs/discs.png' %}" alt='View Moves'>
+            </a><a href='/pokedex/types'>
+                <img src="{% static 'dex_app/imgs/type.png' %}" alt='View Types'>
+            </a><a href='/pokedex/teams'>
+                <img src="{% static 'dex_app/imgs/vs.png' %}" alt='Team Builder'>
+            </a>
+        </div>
+    <div class="container">
+        <div class="row" id='genbuts'>
+            <table class="table">
+                <thead>
+                    <th id='gen_1'> 
+                        <a href="/pokedex/generation-i"><button class='gen_but'>Gen 1</button></a>
+                    </th>
+                    <th id='gen_2'>
+                        <a href="/pokedex/generation-ii"><button class='gen_but'>Gen 2</button></a>
+                    </th>
+                    <th id='gen_3'>
+                        <a href="/pokedex/generation-iii"><button class='gen_but'>Gen 3</button></a>
+                    </th>
+                    
+                    <th id='gen_4'> 
+                        <a href="/pokedex/generation-iv"><button class='gen_but'>Gen 4</button></a>
+                    </th>
+                    <th id='gen_5'>
+                        <a href="/pokedex/generation-v"><button class='gen_but'>Gen 5</button></a>
+                    </th>
+                    <th id='gen_6'>
+                        <a href="/pokedex/generation-vi"><button class='gen_but'>Gen 6</button></a>
+                    </th>
+                    <th id='gen_7'>
+                        <a href="/pokedex/generation-vii"><button class='gen_but'>Gen 7</button></a>
+                    </th>
+                </thead>
+            </table>
+        </div>  
+
+        <form class="navbar-form navbar-left" id='sb_form' action="/action_page.php">
+            <div class="form-group">
+                <input type="text" class="form-control"  id='search_bar' placeholder="Search">
+            </div>
+        </form>
+        <div class="row" id="dex_body">
+            <div class="table-responsive" id="table">
+                <table class= "table">
+                    <thead>
+                        <th> 
+                            <span>No.</span>
+                        </th>
+                        <th>
+                            <span>Pokemon</span>
+                        </th>
+                        <th class='type_col'>
+                            <span>Types</span>
+                        </th>
+                    </thead>
+                    <tbody>
+                        {% for pokemon in all_pokemon %}
+                        <tr>
+                            <td>
+                                {{pokemon.id}}
+                            </td>
+                            <td>
+                                <a href='/pokedex/{{gen}}/{{pokemon.id}}'>{{pokemon.name}}</a>
+                            </td>
+                            <td>
+                                {% for type in pokemon.types.all %}
+                                    <a href='/pokedex/types/{{type.tipe}}'><button class='type_but {{type.tipe}}'>{{type.tipe}}</button></a>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>                 
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    {% load static %}
+    <link rel='stylesheet' href="{% static 'log_reg/css/master-styling.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+    <div class='container'>
+        <img src="{% static 'log_reg/imgs/logo.png' %}" alt='Pokemon Logo'>
+        <form id='logreg' action='/adduser' method='POST'>
+            {% csrf_token %}
+            <div class='form-group'>
+                <input type='text' class='form-control' name='u_name' placeholder='Username'>
+            </div>
+            <div class='form-group'>
+                <input type='text' class='form-control' name='email' placeholder='Email: example@example.com'>
+            </div>
+            <div class='form-group'>
+                <input type='password' class='form-control' name='password' placeholder='Password'>
+            </div>
+            <div class='form-group'>
+                <input type='password' class='form-control' name='pw_confirm' placeholder='Confirm'>
+            </div>
+            <input type='submit' class='btn btn-default form-control' value='Register'>
+        </form>
+    </div>
+</body>
+</html>

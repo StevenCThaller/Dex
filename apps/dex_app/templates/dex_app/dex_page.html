@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    {% load static %}
+    <link rel='stylesheet' href="{% static 'dex_app/css/master-styling.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+    <div class='container'>
+        <h1>{{pokemon.name|title}}</h1>
+        <img src={{picnum}}>
+        <table>
+            <thead>
+                <th>Level</th>
+                <th>Move</th>
+                <th>Type</th>
+                <th>Category</th>
+                <th>Power</th>
+            </thead>
+            <tbody>
+                {% for lvl, move in lvlupmoves.items %}
+                <tr>
+                    <td>{{lvl}}</td>
+                    <td><a href='/moves/{{move}}'>{{move|title}}</a></td>
+                    <td><a href='/types/{{move.type}}'><button class='{{move.type}}'>{{move.type|title}}</button></a></td>
+                    <td>{{move.damage_class|title}}</td>
+                    <td>{{move.power}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div id='navbar'>
+        <a href='/pokedex'>
+            <img src="{% static 'dex_app/imgs/pokeball.png' %}" alt='View Pokedex'>
+        </a><a href='/moves'>
+            <img src="{% static 'dex_app/imgs/discs.png' %}" alt='View Moves'>
+        </a><a href='/types'>
+            <img src="{% static 'dex_app/imgs/type.png' %}" alt='View Types'>
+        </a><a href='/teams'>
+            <img src="{% static 'dex_app/imgs/vs.png' %}" alt='Team Builder'>
+        </a>
+    </div>
+</body>
+</html>

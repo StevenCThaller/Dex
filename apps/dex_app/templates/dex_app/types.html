@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel='stylesheet' href="{% static 'dex_app/css/master-styling.css' %}">
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script></script>
+    <script>
+    </script>
+</head>
+<body>
+    <div id='navbar'>
+        <a href='/pokedex/generation-vi'>
+            <img src="{% static 'dex_app/imgs/pokeball.png' %}" alt='View Pokedex'>
+        </a><a href='/pokedex/moves/generation-vi'>
+            <img src="{% static 'dex_app/imgs/discs.png' %}" alt='View Moves'>
+        </a><a href='/pokedex/types'>
+            <img src="{% static 'dex_app/imgs/type.png' %}" alt='View Types'>
+        </a><a href='/pokedex/teams'>
+            <img src="{% static 'dex_app/imgs/vs.png' %}" alt='Team Builder'>
+        </a>
+    </div>
+    <div class='container'>
+        <div class='row'>
+            <div class='text-center'>
+                <h2 id='table'>Types</h2>
+            </div>
+        </div>
+        <div class='row'>
+            <ul class='typings_list'>
+                {% for type in all_types %}
+                <li class='typings'><a href='/pokedex/types/{{type.tipe}}'><button class='type_but {{type.tipe}}'>{{type.tipe}}</button></a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class='row' id='typedamtable'>
+            <table class='table-responsive'>
+                <thead>
+                    <th></th>
+                    {% for typ in all_types %}
+                    <th>{{typ.tipe}}</th>
+                    {% endfor %}
+                </thead>
+                {% for typ2 in damage_rels %}
+                <tr>
+                    <td>{{typ2.tipe.tipe}}</td>
+                    {% for typ in all_types %}
+                    {% if typ in typ2.double_to.all %}
+                    <td>x2</td>   
+                    {% elif typ in typ2.half_to.all %}
+                    <td>x0.5</td>
+                    {% elif typ in typ2.none_to.all %}
+                    <td>x0</td>
+                    {% else %}
+                    <td>x1</td>
+                    {% endif %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>{{pokemon.name}}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel='stylesheet' href="{% static 'dex_app/css/master-styling.css' %}">
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script type="text/javascript" src="{% static 'dex_app/js/master_JS.js' %}"></script>
+    
+</head>
+<header>
+    <h1 id='mon_name' style="text-align: center;">{{pokemon.name}}</h1>
+</header>
+<body>        
+    <div id='navbar'>
+        <a href='/pokedex/generation-vii'>
+            <img src="{% static 'dex_app/imgs/pokeball.png' %}" alt='View Pokedex'>
+        </a>
+        <a href='/pokedex/moves/generation-vii'>
+            <img src="{% static 'dex_app/imgs/discs.png' %}" alt='View Moves'>
+        </a>
+        <a href='/pokedex/types'>
+            <img src="{% static 'dex_app/imgs/type.png' %}" alt='View Types'>
+        </a>
+        <a href='/pokedex/teams'>
+            <img src="{% static 'dex_app/imgs/vs.png' %}" alt='Team Builder'>
+        </a>
+    </div> 
+    <div class="container">
+        <div class="row" style="margin-top:40px;">
+            <div class="table-responsive">
+                <table class="table" id="table">
+                    <thead>
+                        <th class="col-xs-5"> 
+                            <img id='mon_pic' src="{{picnum}}" alt='{{pokemon.name}}' style="width:150px; height:150px;">
+                        </th>
+                        <th class="col-xs-7">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="text-center">
+                                        <span>No. {{pokemon.id}}</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="text-center">
+                                        {% for type in pokemon.types.all %}
+                                        <button type="button" class="type_but {{type.tipe}}">{{type.tipe}}</button>
+                                        {% endfor %}
+                                    </div> 
+                                </div>
+                                <div class="row">
+                                    <span>HP:</span>
+                                </div>
+                                <div class="row">
+                                    <span>Att</span>
+                                </div>
+                                <div class="row">
+                                    <span>Def</span>
+                                </div>
+                                <div class="row">
+                                    <span>Sp A</span>
+                                </div>
+                                <div class="row">
+                                    <span>Sp De</span>
+                                </div>
+                                <div class="row">
+                                    <span>Speed</span>
+                                </div>
+                            </div>
+                        </th>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div class="row" id='accord'>
+            <button class="accordion">Abilities</button>
+            <div class="panel nomargin"  id='abil'>
+                {% for ability in pokemon.abilities.all %}
+                    <p><b>{{ability.name}}:</b> {{ability.effect}}</p>
+                {% endfor %}
+            </div>
+            <button class="accordion">Level Up Moves</button>
+            <div class="panel"  id='moveslist'>
+                {% for verset in moveslist %}
+                    <h3>{{verset.first.version.name|title}} Level Up</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Lvl</th>
+                                <th>Move</th>
+                                <th>Type</th>
+                                <th>Category</th>
+                                <th>Power</th>
+                            </tr>
+                        </thead>
+                            {% for move in verset %}
+                            {% if move.method.method == 'level-up' %}
+                            <tr>
+                                <td>{{move.meth_qual}}</td>
+                                <td><a href='/pokedex/moveshow/{{gen}}/{{move.move.name}}'>{{move.move.name|title}}</a></td>
+                                <td><a href='/pokedex/types/{{move.move.tipe.tipe}}'><button class='type_but {{move.move.tipe.tipe}}'>{{move.move.tipe.tipe}}</button></a></td>
+                                <td>{{move.move.category.name|title}}</td>
+                                <td>{{move.move.power}}</td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                {% endfor %}
+            </div>
+            <button class="accordion">Egg Moves</button>
+            <div class="panel"  id='moveslist'>
+                    {% for verset in moveslist %}
+                    <h3>{{verset.first.version.name|title}} Egg Moves</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Move</th>
+                                <th>Type</th>
+                                <th>Category</th>
+                                <th>Power</th>
+                            </tr>
+                        </thead>
+                            {% for move in verset %}
+                            {% if move.method.method == 'egg' %}
+                            <tr>
+                                <td><a href='/pokedex/moveshow/{{move.move.name|title}}'>{{move.move.name|title}}</a></td>
+                                <td><a href='pokedex/types/{{move.move.tipe.tipe}}'><button class='type_but {{move.move.tipe.tipe}}'>{{move.move.tipe.tipe}}</button></a></td>
+                                <td>{{move.move.category.name|title}}</td>
+                                <td>{{move.move.power}}</td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                        <tbody>
+                            
+                        </tbody>
+                    </table>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+        
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.display === "block") {
+                    panel.style.display = "none";
+                } else {
+                    panel.style.display = "block";
+                }
+            });
+        }
+    </script>
+</body>
+</html>
